@@ -1,0 +1,76 @@
+<p>Hadoop is a platform to process large dataset using MapReduce framework. 
+</p>
+<h1> Hadoop Example </h1>
+
+<br/>Take the following example from Tom White's book Hadoop: The Definitive Guide
+<br/>Please note you just need the Hadoop jar 
+<br/>You don't need to have Hadoop installed
+<br/>
+<br/>File Name: StringTextComparisonTest.java
+
+<br/>--------------------------------------------------------------------
+<i>
+<br/>import java.io.*;
+
+<br/>import org.apache.hadoop.io.Text;
+<br/>import org.junit.Test;
+<br/>
+<br/>// vv StringTextComparisonTest
+<br/>public class StringTextComparisonTest {
+<br/>
+<br/>  @Test
+<br/>  public void string() throws UnsupportedEncodingException {
+<br/>    
+<br/>    String s = "\u0041\u00DF\u6771\uD801\uDC00";
+<br/>    assert s.length() == 5;
+<br/>    assert s.getBytes("UTF-8").length == 10;
+<br/>    
+<br/>    assert s.indexOf("\u0041") == 0;
+<br/>    assert s.indexOf("\u00DF") == 1;
+<br/>    assert s.indexOf("\u6771") == 2;
+<br/>    assert s.indexOf("\uD801\uDC00") == 3;
+    
+<br/>    assert s.charAt(0) == '\u0041';
+<br/>    assert s.charAt(1) == '\u00DF';
+<br/>    assert s.charAt(2) == '\u6771';
+<br/>    assert s.charAt(3) == '\uD801';
+<br/>    assert s.charAt(4) == '\uDC00';
+<br/>    
+<br/>    assert s.codePointAt(0) == 0x0041;
+<br/>    assert s.codePointAt(1) == 0x00DF;
+<br/>    assert s.codePointAt(2) == 0x6771;
+<br/>    assert s.codePointAt(3) == 0x10400; 
+<br/>  }
+<br/>@Test
+<br/>  public void text() {
+<br/>   
+<br/>    Text t = new Text("\u0041\u00DF\u6771\uD801\uDC00");
+<br/>    assert t.getLength() == 10;
+<br/>    assert t.find("\u0041") == 0;
+<br/>    assert t.find("\u00DF") == 1;
+<br/>    assert t.find("\u6771") == 3;
+<br/>    assert t.find("\uD801\uDC00") == 6;
+<br/>
+<br/>    assert t.charAt(0) == 0x0041;
+<br/>    assert t.charAt(1) == 0x00DF;
+<br/>    assert t.charAt(3) == 0x6771;
+<br/>   assert t.charAt(6) == 0x10400;  
+<br/>  }  
+<br/>}
+</i>
+
+<br/>---------------------------------------------------------------------------
+
+<br/>First download junit and apache common-logging jars to the current directory
+<br/>
+<br/>Compile:
+<br/><strong>javac -cp $HADOOP_HOME/hadoop-core.jar:./junit.jar StringTextComparisonTest.java 
+</strong>
+<br/>Run:
+<br/>java -cp junit.jar:.:$HADOOP_HOME/hadoop-core.jar:commons-logging-1.1.1.jar org.junit.runner.JUnitCore StringTextComparisonTest
+<br/><strong>JUnit version 4.11-SNAPSHOT-20120805-1225
+<br/>..
+<br/>Time: 0.626
+<br/>
+<br/>OK (2 tests)
+</strong>
